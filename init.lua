@@ -117,7 +117,6 @@ function multiblock.match(pattern, center)
 		local flipped_pos = flipped_va:position(i)
 		local rel_pos = {x=flipped_pos.x, y=flipped_pos.z, z=flipped_pos.y}
 		local pos = vector.add(rel_pos, min_p)
-		print(dump(min_p), dump(rel_pos), dump(pos))
 		local node_name = vm:get_node_at(pos).name
 
 		-- Patterns are formatted as rows of x in squares of z in a cube

@@ -28,7 +28,6 @@ minetest.register_node("multiblock:test_core", {
 			minetest.chat_send_player(clicker:get_player_name(), "Match failed.")
 			return
 		end
-		print(dump(captures))
 
 		local mat = captures.mat[1]
 
