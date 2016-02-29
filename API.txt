@@ -1,0 +1,61 @@
+This is a library providing block patterns, which can be thought of as
+"regexp for nodes", or something similar. There is no * or union, though.
+
+A pattern takes the form of a table, with keys:
+  size: A vector specifying how large the pattern is in each direction
+  center: A vector specifying which node in the pattern should be considered
+          the center. This need not actually be contained in the pattern.
+  pattern: An array describing the pattern.
+
+
+The pattern field is an array of node patterns, which are patterns for matching
+single nodes. The array is arranged as rows of x in square of z in a cube of y,
+unlike VoxelManip coordinates which have the roles of z and y reveresed. Node
+patterns can have one of these forms:
+
+""
+  Matches any node, without making a capture.
+
+"nodename"
+   Matches a node with the given name, without making a
+   capture. This can also be a group, and will match any member
+   of the group.
+	       
+"capturename?nodename"
+  Matches a single node and saves it as a capture. It will match any node that
+  would have been matched by "nodename" alone, including if you leave nodename
+  blank. If capturename is blank, the capture will be anonymous and not associated
+  with a particular name. If it is not blank, the capture will be added to a
+  list for that specific capture name.
+
+"capturename!nodename"
+  Similar to the above, but every node matched by "capturename!nodename" must be
+  the same node. For example, if your pattern contains multiple
+  "stones!group:stone", then the match will succeed if and only if all of them
+  match the same kind of stone. This pattern cannot have a blank capturename.
+  If you choose a specific node for nodename, then it will be equivalent to
+  "capturename?nodename", as there is only one possible kind of node to match.
+
+
+Captures:
+
+When you match a multiblock pattern you may wish to know what some of the nodes
+are, and their positions. Captures allow you to save nodes matched by the
+pattern so they can be examined. When a match succeeds, it will also produce
+a table containing captures. Each named capture is inserted into an
+array specific to that capture name, which is accessible by indexing the table
+with the capture name. For example, result["stones"][1] will give the first
+capture associated with the name "stones". Anonymous captures are available
+under the capture name "".
+
+Each capture is a table with these fields:
+  pos: A vector representing the absolute position of the node in the world
+  name: The string name of the node.
+
+
+Functions:
+
+multiblock.match(pattern, center)
+  Attempts to match a given pattern, placing the center of the pattern at
+  the given center, which is a position vector. Returns nil on failure and
+  a capture table on success.
