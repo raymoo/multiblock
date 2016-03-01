@@ -90,10 +90,6 @@ local function match_node(node_pattern, node_name, strict_map)
 end
 
 
-local function vm_index_to_pos(min_p, size, index)
-	return -- TODO: Implement
-end
-
 -- Attempts to match a given pattern, placing the center of the pattern at
 -- the given center, which is a position vector. Returns nil on failure and
 -- a capture table on success.
