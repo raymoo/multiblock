@@ -112,12 +112,12 @@ function multiblock.match(pattern, center)
 		local flipped_pos = flipped_va:position(i)
 		local rel_pos = {x=flipped_pos.x, y=flipped_pos.z, z=flipped_pos.y}
 		local pos = vector.add(rel_pos, min_p)
-		local node_name = vm:get_node_at(pos).name
+		local node = vm:get_node_at(pos)
 
 		-- Patterns are formatted as rows of x in squares of z in a cube
 		-- of y
 
-		local succ, cap_name = match_node(node_pattern, node_name, strict_map)
+		local succ, cap_name = match_node(node_pattern, node.name, strict_map)
 		if not succ then return nil end
 
 		if cap_name then
@@ -127,7 +127,8 @@ function multiblock.match(pattern, center)
 				captures[cap_name] = cap_array
 			end
 
-			table.insert(cap_array, {pos=pos, name=node_name})
+			node.pos = pos
+			table.insert(cap_array, node)
 		end
 	end
 

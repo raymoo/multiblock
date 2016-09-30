@@ -51,6 +51,10 @@ under the capture name "".
 Each capture is a table with these fields:
   pos: A vector representing the absolute position of the node in the world
   name: The string name of the node.
+  param1: The param1 of the node
+  param2: The param2 of the node
+Essentially this is the standard node table format, except with position
+information. You could use this in place_node, for example.
 
 
 Functions:
